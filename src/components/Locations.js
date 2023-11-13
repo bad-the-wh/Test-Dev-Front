@@ -7,7 +7,8 @@ import activities from "../assets/icons/location_types/activities.jpg";
 
 const Locations = () => {
   const [combinedData, setCombinedData] = useState([]);
-  const [rangeValue, setRangeValue] = useState();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [rangeValue, setRangeValue] = useState(300);
   const checkbox = ["Fountain", "Green Space", "Activity"];
   const [selectedRadio, setSelectedRadio] = useState("");
   const limit = 100;
@@ -151,16 +152,41 @@ const Locations = () => {
     fetchData();
   }, []);
 
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value.toLowerCase());
+  };
+
+  // Filter based on the search query and selected radio button
+  const filteredData = combinedData.filter((location) => {
+    const name = location.name ? location.name.toLowerCase() : "";
+    const address = location.address ? location.address.toLowerCase() : "";
+    const matchesSearchQuery =
+      name.includes(searchQuery) || address.includes(searchQuery);
+    const matchesRadioSelection =
+      selectedRadio === "" || location.set === selectedRadio;
+
+    return matchesSearchQuery && matchesRadioSelection;
+  });
+
+  // Then apply the range value to limit the number of displayed items
+  const displayedData = filteredData.slice(0, rangeValue);
+
   return (
     <div>
       <ul className="radio-container">
         <input
+          type="text"
+          placeholder="Search locations..."
+          value={searchQuery}
+          onChange={handleSearch}
+        />
+        <input
           type="range"
           name="Range of Results:"
           min="1"
-          max="100"
+          max="300"
           value={rangeValue}
-          onChange={(e) => setRangeValue(e.target.value)}
+          onChange={(e) => setRangeValue(Number(e.target.value))}
         />
         {checkbox.map((set) => (
           <li key={set}>
@@ -179,13 +205,9 @@ const Locations = () => {
         <button onClick={() => setSelectedRadio("")}>Reset</button>
       )}
       <ul>
-        {combinedData
-          .filter((location) => location.set.includes(selectedRadio))
-          .sort(/*(a, b) => b.cordonnees - a.coordonnees*/) //pour un futur tri par pertinence selon la distance entre la position actuelle de l'utilisateur et celle de la location.
-          .slice(0, rangeValue)
-          .map((location, index) => (
-            <Banner key={location.id || index} location={location} />
-          ))}
+        {displayedData.map((location, index) => (
+          <Banner key={location.id || index} location={location} />
+        ))}
       </ul>
     </div>
   );
