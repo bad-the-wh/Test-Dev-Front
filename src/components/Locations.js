@@ -7,6 +7,10 @@ import activities from "../assets/icons/location_types/activities.jpg";
 
 const Locations = () => {
   const [combinedData, setCombinedData] = useState([]);
+  const [rangeValue, setRangeValue] = useState();
+  const checkbox = ["Fountain", "Green Space", "Activity"];
+  const [selectedRadio, setSelectedRadio] = useState("");
+  const limit = 100;
 
   const normalizeData = (data, datasetType) => {
     return data.map((item) => {
@@ -23,6 +27,7 @@ const Locations = () => {
           geo_shape: item.geo_shape,
           available: item.dispo,
           icon: water_fountains,
+          set: "Fountain",
         };
       } else if (datasetType === "dataset2") {
         return {
@@ -35,6 +40,7 @@ const Locations = () => {
           geo_shape: item.geo_shape,
           available: item.statut_ouverture,
           icon: green_spaces,
+          set: "Green Space",
         };
       } else if (datasetType === "dataset3") {
         return {
@@ -47,6 +53,7 @@ const Locations = () => {
           geo_shape: item.geo_shape,
           available: item.statut_ouverture,
           icon: activities,
+          set: "Activity",
         };
       }
     });
@@ -71,8 +78,6 @@ const Locations = () => {
       const limit3 = limits[2].data.total_count;
 
     */
-
-      const limit = 100;
 
       try {
         const responses = await Promise.all([
@@ -148,10 +153,39 @@ const Locations = () => {
 
   return (
     <div>
-      <ul>
-        {combinedData.map((location, index) => (
-          <Banner key={index} location={location} />
+      <ul className="radio-container">
+        <input
+          type="range"
+          name="Range of Results:"
+          min="1"
+          max="100"
+          value={rangeValue}
+          onChange={(e) => setRangeValue(e.target.value)}
+        />
+        {checkbox.map((set) => (
+          <li key={set}>
+            <input
+              type="radio"
+              id={set}
+              name="RadioSet"
+              checked={set === selectedRadio}
+              onChange={(e) => setSelectedRadio(e.target.id)}
+            />
+            <label htmlFor={set}>{set}</label>
+          </li>
         ))}
+      </ul>
+      {selectedRadio && (
+        <button onClick={() => setSelectedRadio("")}>Reset</button>
+      )}
+      <ul>
+        {combinedData
+          .filter((location) => location.set.includes(selectedRadio))
+          .sort(/*(a, b) => b.cordonnees - a.coordonnees*/) //pour un futur tri par pertinence selon la distance entre la position actuelle de l'utilisateur et celle de la location.
+          .slice(0, rangeValue)
+          .map((location, index) => (
+            <Banner key={location.id || index} location={location} />
+          ))}
       </ul>
     </div>
   );

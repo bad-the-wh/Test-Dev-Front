@@ -1,0 +1,100 @@
+// Define colors and fonts
+$blue: #5f259f;
+$gray: #0f7fda;
+$white: #fff;
+$font-heading: 'Nexa', sans-serif;
+$font-body: 'Arial', sans-serif;
+
+// Basic reset for padding and margin
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font-body;
+  background-color: $white;
+  color: $gray;
+}
+
+// Header styling
+header {
+  background-color: $blue;
+  color: $white;
+  padding: 1rem;
+
+  /*nav {
+    // Navigation styling
+  }*/
+}
+
+// Radio container bar
+.radio-container {
+  display: flex;
+  justify-content:space-between;
+  background-color: $gray;
+  color: $white;
+  padding: 1rem;
+
+  input[type='radio'] {
+    margin-right: 0.5rem;
+  }
+
+  label {
+    margin-right: 1rem;
+  }
+
+  input[type='range'] {
+    color: $blue;
+  }
+}
+
+// Main content area
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /*.location-listing {
+    // Styles for location listing table
+  }*/
+}
+
+// Footer styling
+footer {
+  background-color: $blue;
+  color: $white;
+  padding: 1rem;
+  text-align: center;
+}
+
+// Button styling
+button {
+  background-color: $gray;
+  color: $white;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: darken($gray, 10%);
+  }
+
+  &:active {
+    background-color: lighten($gray, 10%);
+  }
+}
+
+// Responsive design breakpoints
+@media (max-width: 992px) {
+  // Styles for desktops
+}
+
+@media (max-width: 768px) {
+  // Styles for tablets
+  .radio-container {
+    flex-direction: column;
+  }
+}

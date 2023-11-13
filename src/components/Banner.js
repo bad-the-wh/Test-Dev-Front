@@ -10,7 +10,7 @@ const Banner = ({ location }) => {
         <div className="infos">
           <h4>{location.name}</h4>
           <p>
-            {location.type} - {location.address}
+            {location.type} - {location.address} {location.pobox}
           </p>
         </div>
       </div>

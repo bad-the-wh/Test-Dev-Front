@@ -1,0 +1,46 @@
+.banner {
+  display: flex;
+  align-items: center;
+  background-color: $white;
+  border: 1px solid $gray;
+  border-radius: 10px;
+  margin: 1rem;
+  padding: 1rem;
+
+  .icon {
+    flex-shrink: 0; // Prevent the icon from shrinking
+    margin-right: 1rem; // Space between icon and info
+
+    img {
+      border-radius: 50%; // Makes the image circular
+      width: 50px; // Fixed width
+      height: 50px; // Fixed height
+    }
+  }
+
+  .infos {
+    h4 {
+      font-family: $font-heading;
+      color: $blue;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-family: $font-body;
+      color: $gray;
+      margin: 0;
+    }
+  }
+}
+
+// Responsive design adjustments
+@media (max-width: 768px) {
+  .banner {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .icon {
+      margin-bottom: 0.5rem;
+    }
+  }
+}

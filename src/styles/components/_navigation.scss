@@ -1,0 +1,32 @@
+.navigation {
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; // Adjust this as needed (e.g., for a vertical layout, use 'flex-direction: column;')
+
+    li {
+      margin-right: 1rem; // Spacing between menu items
+      padding: 10px;
+
+      a {
+        text-decoration: none;
+        color: #0f7fda; // Gray color
+        font-family: 'Arial', sans-serif; // Default body font
+        padding: 0.5rem 1rem; // Padding for larger click area
+        border-radius: 5px; // Rounded corners
+        transition: background-color 0.3s, color 0.3s; // Smooth transition for hover and active effects
+
+        &:hover {
+          background-color: #5f259f; // Blue color for hover
+          color: white;
+        }
+
+        &.active {
+          background-color: #5f259f; // Blue color for active link
+          color: white;
+        }
+      }
+    }
+  }
+}
